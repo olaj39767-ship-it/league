@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Audit League - Animated</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@500;600&display=swap">
+<style>
+:root{--p1:#0b3d27;--p2:#0f4b30;--ink:#f4fff7;--mute:#9ec7ad;--gold:#ffcf3f;--red:#ff5a4a;--line:#2a6a4a}
+*{box-sizing:border-box}
+body{margin:0;background:#06140d;color:var(--ink);font-family:"Barlow",system-ui,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.app{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:flex-start;padding:14px}
+.stage{container-type:size;position:relative;overflow:hidden;border-radius:18px;width:min(100%,calc((100vh - 28px) * 9 / 16));aspect-ratio:9/16;
+  background:repeating-linear-gradient(90deg,var(--p1) 0 12cqw,var(--p2) 12cqw 24cqw);animation:drift 12s linear infinite}
+@keyframes drift{to{background-position:24cqw 0}}
+.stage::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 14cqw rgba(0,0,0,.65);pointer-events:none}
+.hd{position:absolute;top:3.2cqh;left:4cqw;right:4cqw;text-align:center}
+.hd h1{margin:0;font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:800;font-size:10cqw;line-height:1;
+  background:linear-gradient(100deg,#ffcf3f 20%,#fff6c9 45%,#ffcf3f 70%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 3.5s linear infinite}
+@keyframes shine{to{background-position:-250% 0}}
+.hd p{margin:1cqh 0 0;font-size:3.6cqw;color:var(--mute);font-weight:600}
+.list{position:absolute;top:19cqh;left:0;right:0;bottom:11cqh}
+.row{position:absolute;left:4cqw;right:4cqw;top:0;display:flex;align-items:center;gap:3cqw;padding:0 3cqw;border-radius:14px;border:2px solid var(--line);
+  background:linear-gradient(90deg,rgba(255,255,255,.14),rgba(255,255,255,.05));backdrop-filter:blur(2px);
+  transition:transform .85s cubic-bezier(.2,.9,.25,1.08),opacity .5s,height .4s}
+.rk{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:800;font-size:9cqw;width:9cqw;text-align:center}
+.mid{flex:1;min-width:0}
+.nm{font-weight:600;font-size:5.4cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk{font-size:3cqw;color:var(--mute);margin-top:.3cqh}
+.bars{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2cqw;margin-top:.9cqh}
+.bar{height:1.2cqw;border-radius:2cqw;background:rgba(255,255,255,.18);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7dffb0,var(--gold));transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.tt{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:800;font-size:10.5cqw;line-height:1;white-space:nowrap}
+.tt small{font-size:4cqw;color:var(--mute);margin-left:.5cqw}
+.crown{display:none;position:absolute;top:-4.2cqw;left:1.5cqw;font-size:7cqw;transform-origin:50% 100%}
+.row.lead{border-color:var(--gold);animation:glow 2s ease-in-out infinite}
+.row.lead .crown{display:block}.row.lead .rk,.row.lead .tt{color:var(--gold)}
+@keyframes glow{50%{box-shadow:0 0 5cqw rgba(255,207,63,.6)}}
+.row.last{border-color:var(--red)}.row.last .rk{color:var(--red)}
+.crown.pop{animation:drop .9s cubic-bezier(.3,1.6,.4,1)}
+@keyframes drop{0%{transform:translateY(-14cqw) rotate(-30deg) scale(.4);opacity:0}100%{transform:none;opacity:1}}
+.ft{position:absolute;left:4cqw;right:4cqw;bottom:2.2cqh;text-align:center}
+.ban{font-weight:700;font-size:4.6cqw;color:var(--gold);min-height:5.6cqw}
+.lg{font-size:2.9cqw;color:var(--mute);margin-top:.8cqh}
+.hdl{font-weight:600}
+#cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.panel{width:min(100%,520px);background:#0f2a1d;border:1px solid var(--line);border-radius:14px;padding:16px}
+.panel h2{margin:0 0 10px;font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-size:24px}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+button{font:inherit;font-weight:700;cursor:pointer;border-radius:10px;border:none;padding:11px 14px;background:var(--gold);color:#10231a}
+button.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+label{display:block;font-size:12px;color:var(--mute)}
+.panel input{display:block;width:100%;margin-top:3px;padding:9px;font:inherit;color:var(--ink);background:#08170f;border:1px solid var(--line);border-radius:8px}
+.w2{grid-column:span 2}.w3{grid-column:1/-1}
+.er{border-top:1px solid var(--line);padding:10px 0}
+.er .t{display:flex;justify-content:space-between;align-items:center;font-weight:600;margin-bottom:6px}
+.er .t button{padding:2px 10px;background:transparent;color:var(--mute);font-size:18px}
+.er .g{grid-template-columns:repeat(6,1fr);gap:5px}
+.er input{padding:6px 2px;text-align:center}
+.hint{color:var(--mute);font-size:13px;margin:10px 0 0}
+body.rec .panel{display:none}
+body.rec .app{padding:0;min-height:100vh;align-items:center}
+body.rec .stage{border-radius:0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="stage" id="stage">
+    <div class="hd"><h1 id="h-title"></h1><p id="h-sub">Five metrics. Twenty points each. A hundred to win.</p></div>
+    <div class="list" id="list"></div>
+    <div class="ft"><div class="ban" id="ban"></div><div class="lg">Brand · Infra · Price · Social · CX <span class="hdl" id="h-handle"></span></div></div>
+    <canvas id="cv"></canvas>
+  </div>
+
+  <div class="panel">
+    <h2>Control room</h2>
+    <div class="btns">
+      <button id="rec" type="button">Record mode</button>
+      <button id="fin" class="alt" type="button">Replay finale reveal</button>
+      <button id="clr" class="alt" type="button">Clear table</button>
+    </div>
+    <div class="g">
+      <label class="w2">Series title<input id="m-title" type="text"></label>
+      <label>Your handle<input id="m-handle" type="text" placeholder="@yourpage"></label>
+    </div>
+    <h2 style="margin-top:18px">Add an audit</h2>
+    <div class="g">
+      <label class="w3">Supermarket name<input id="f-name" type="text" autocomplete="off"></label>
+      <label>Branding (/20)<input id="f-brd" type="number" min="0" max="20" step="0.5" inputmode="decimal"></label>
+      <label>Infrastructure (/20)<input id="f-inf" type="number" min="0" max="20" step="0.5" inputmode="decimal"></label>
+      <label>Price value (/20)<input id="f-prc" type="number" min="0" max="20" step="0.5" inputmode="decimal"></label>
+      <label>Social media (/20)<input id="f-soc" type="number" min="0" max="20" step="0.5" inputmode="decimal"></label>
+      <label>Customer exp. (/20)<input id="f-cx" type="number" min="0" max="20" step="0.5" inputmode="decimal"></label>
+      <label>Basket (₦)<input id="f-bk" type="number" min="0" inputmode="numeric"></label>
+    </div>
+    <p style="margin:12px 0 0"><button id="add" type="button" style="width:100%">Add to the table</button></p>
+    <div id="edit"></div>
+    <p class="hint">Record mode shows only the 9:16 stage. Screen-record it, add a new audit, and the table animates for you. Press Esc or double-click to exit.</p>
+  </div>
+</div>
+
+<script>
+var KEY='audit-league-v2', MK='audit-league-meta', M=['brd','inf','prc','soc','cx'];
+var teams=[], meta={title:'Ibadan Supermarket Audit League',handle:''};
+try{teams=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+try{var mm=JSON.parse(localStorage.getItem(MK)||'null');if(mm)meta=mm}catch(e){}
+if(!Array.isArray(teams))teams=[];
+var $=function(i){return document.getElementById(i)};
+var list=$('list'),stage=$('stage'),rows={},shown=null,leaderId=null,ready=false,quiet=false;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(teams));localStorage.setItem(MK,JSON.stringify(meta))}catch(e){}}
+function clamp(v){v=parseFloat(v);return isNaN(v)?0:Math.max(0,Math.min(20,v))}
+function total(t){return M.reduce(function(s,k){return s+(Number(t[k])||0)},0)}
+function fmt(n){return Number.isInteger(n)?String(n):n.toFixed(1)}
+function ranked(){return teams.slice().sort(function(a,b){var d=total(b)-total(a);if(d)return d;
+  return (a.basket>0?a.basket:Infinity)-(b.basket>0?b.basket:Infinity)})}
+
+function mk(){
+  var node=document.createElement('div');node.className='row';
+  node.innerHTML='<span class="crown">👑</span><div class="rk"></div><div class="mid"><div class="nm"></div><div class="bk"></div><div class="bars"></div></div><div class="tt"><b>0</b><small>/100</small></div>';
+  var n={node:node,rk:node.querySelector('.rk'),nm:node.querySelector('.nm'),bk:node.querySelector('.bk'),tv:node.querySelector('.tt b'),crown:node.querySelector('.crown'),bars:[],cur:0,raf:0};
+  var bw=node.querySelector('.bars');
+  for(var i=0;i<5;i++){var b=document.createElement('span');b.className='bar';var f=document.createElement('i');b.appendChild(f);bw.appendChild(b);n.bars.push(f)}
+  return n;
+}
+function count(n,to){
+  var from=n.cur,t0=performance.now();n.cur=to;cancelAnimationFrame(n.raf);
+  (function f(now){var p=Math.min(1,(now-t0)/1000),e=1-Math.pow(1-p,3);
+    n.tv.textContent=fmt(p>=1?to:Math.round((from+(to-from)*e)*2)/2);
+    if(p<1)n.raf=requestAnimationFrame(f)})(t0);
+}
+function popCrown(n){var c=n.crown;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}
+
+function render(){
+  var r=ranked(),H=list.clientHeight,rh=H/Math.max(r.length,6),ids={};
+  var bs=r.map(function(t){return t.basket}).filter(function(b){return b>0});
+  var cheap=bs.length>1?Math.min.apply(null,bs):null;
+  r.forEach(function(t,i){
+    ids[t.id]=1;var n=rows[t.id],fresh=!n,y=i*rh,out=shown&&!shown.has(t.id);
+    if(fresh){n=rows[t.id]=mk();list.appendChild(n.node);var s0=n.node.style;
+      s0.transition='none';s0.opacity=0;s0.transform='translate(120cqw,'+y+'px)';void n.node.offsetWidth;s0.transition=''}
+    var s=n.node.style;s.height=(rh-8)+'px';
+    s.transform='translate('+(out?'120cqw':'0px')+','+y+'px)';s.opacity=out?0:1;
+    n.nm.textContent=t.name;n.rk.textContent=i+1;
+    n.bk.textContent=t.basket>0?'Basket ₦'+Number(t.basket).toLocaleString('en-NG')+(t.basket===cheap?'  ·  cheapest':''):'No basket yet';
+    M.forEach(function(k,j){n.bars[j].style.width=(clamp(t[k])/20*100)+'%'});
+    var tot=total(t);if(fresh||n.cur!==tot)count(n,tot);
+    n.node.classList.toggle('lead',i===0);
+    n.node.classList.toggle('last',r.length>=3&&i===r.length-1);
+  });
+  Object.keys(rows).forEach(function(id){if(!ids[id]){rows[id].node.remove();delete rows[id]}});
+  var lid=r.length?r[0].id:null;
+  if(ready&&!quiet&&lid!==null&&lid!==leaderId){popCrown(rows[lid]);if(r.length>1)burst()}
+  leaderId=lid;
+  var b=$('ban');
+  if(shown)b.textContent='';
+  else if(!r.length)b.textContent='Add your first audit to start the table';
+  else if(r.length===1)b.textContent=r[0].name+' sets the early mark';
+  else{var g=total(r[0])-total(r[1]);
+    b.textContent=g?r[0].name+' leads by '+fmt(g)+(g===1?' point':' points'):'Level on points. Cheaper basket leads'}
+  ready=true;
+}
+
+/* confetti */
+var cv=$('cv'),cx=cv.getContext('2d'),parts=[],run=false,dpr=Math.min(window.devicePixelRatio||1,2);
+function sizeCv(){cv.width=stage.clientWidth*dpr;cv.height=stage.clientHeight*dpr}
+function burst(){
+  sizeCv();var w=cv.width,h=cv.height,cols=['#ffcf3f','#ffffff','#7dffb0','#ff5a4a','#4ac8ff'];
+  for(var i=0;i<150;i++)parts.push({x:w/2,y:h*.3,vx:(Math.random()-.5)*w*.03,vy:-Math.random()*h*.012-h*.004,
+    s:(Math.random()*.012+.008)*w,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:cols[i%5],l:1});
+  if(!run){run=true;requestAnimationFrame(tick)}
+}
+function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts=parts.filter(function(p){return p.l>0&&p.y<cv.height+40});
+  parts.forEach(function(p){p.vy+=cv.height*.0004;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.l-=.004;
+    cx.save();cx.globalAlpha=Math.max(p.l,0);cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);cx.restore()});
+  if(parts.length)requestAnimationFrame(tick);else{run=false;cx.clearRect(0,0,cv.width,cv.height)}
+}
+
+/* finale reveal: last place first, winner last */
+function finale(){
+  var r=ranked();if(r.length<2)return;
+  quiet=true;shown=new Set();render();var i=r.length-1;
+  (function step(){
+    shown.add(r[i].id);render();
+    if(i===0){setTimeout(function(){popCrown(rows[r[0].id]);burst();shown=null;render();quiet=false},900);return}
+    i--;setTimeout(step,i===0?2000:1300);
+  })();
+}
+
+/* control room */
+function meta2(){$('h-title').textContent=meta.title||'Audit League';$('h-handle').textContent=meta.handle?'  ·  '+meta.handle:'';
+  $('m-title').value=meta.title;$('m-handle').value=meta.handle}
+function editor(){
+  var box=$('edit');box.innerHTML='';
+  ranked().forEach(function(t){
+    var d=document.createElement('div');d.className='er';
+    var top=document.createElement('div');top.className='t';
+    var nm=document.createElement('span');nm.textContent=t.name;
+    var x=document.createElement('button');x.type='button';x.textContent='×';x.setAttribute('aria-label','Remove '+t.name);
+    x.onclick=function(){teams=teams.filter(function(q){return q.id!==t.id});save();render();editor()};
+    top.appendChild(nm);top.appendChild(x);d.appendChild(top);
+    var g=document.createElement('div');g.className='g';
+    M.concat(['basket']).forEach(function(k,j){
+      var l=document.createElement('label');l.textContent=['Brand','Infra','Price','Social','CX','Basket'][j];
+      var i=document.createElement('input');i.type='number';i.min=0;i.inputMode='decimal';if(k!=='basket'){i.max=20;i.step=.5}
+      i.value=k==='basket'?(t.basket>0?t.basket:''):t[k];
+      i.onchange=function(){t[k]=k==='basket'?Math.max(0,parseFloat(i.value)||0):clamp(i.value);save();render()};
+      l.appendChild(i);g.appendChild(l)});
+    d.appendChild(g);box.appendChild(d)});
+}
+$('add').onclick=function(){
+  var name=$('f-name').value.trim();if(!name){$('f-name').focus();return}
+  var t={id:Date.now()+Math.random(),name:name,basket:Math.max(0,parseFloat($('f-bk').value)||0)};
+  M.forEach(function(k){t[k]=clamp($('f-'+k).value)});
+  teams.push(t);save();render();editor();
+  ['f-name','f-brd','f-inf','f-prc','f-soc','f-cx','f-bk'].forEach(function(i){$(i).value=''});
+};
+$('clr').onclick=function(){if(teams.length&&!confirm('Clear every supermarket from the table?'))return;teams=[];save();render();editor()};
+$('fin').onclick=finale;
+$('m-title').oninput=function(){meta.title=this.value;save();meta2()};
+$('m-handle').oninput=function(){meta.handle=this.value;save();meta2()};
+function exitRec(){document.body.classList.remove('rec');setTimeout(function(){sizeCv();render()},100)}
+$('rec').onclick=function(){document.body.classList.add('rec');
+  try{document.documentElement.requestFullscreen()}catch(e){}
+  setTimeout(function(){sizeCv();render()},150)};
+stage.ondblclick=exitRec;
+document.addEventListener('keydown',function(e){if(e.key==='Escape')exitRec()});
+document.addEventListener('fullscreenchange',function(){if(!document.fullscreenElement&&document.body.classList.contains('rec'))exitRec()});
+window.addEventListener('resize',function(){sizeCv();render()});
+
+meta2();sizeCv();render();editor();
+</script>
+</body>
+</html>
